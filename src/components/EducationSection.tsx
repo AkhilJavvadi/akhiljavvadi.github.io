@@ -22,7 +22,7 @@ export const EducationSection = () => {
       school: "University of Maryland, College Park",
       degree: "Master of Engineering in Robotics",
       period: "May 2025",
-      gpa: "3.67/4",
+      gpa: "3.68/4",
       coursework: "Robot Modeling, Control Systems, HRI, NLP, Planning and Perception for autonomous robots, Multimodal Models, Building Manufacturing Robotics Software Systems",
       highlight: "My foundation in robotics and AI began here."
     },
