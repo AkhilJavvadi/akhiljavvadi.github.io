@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,7 +15,29 @@ export const ContactSection = () => {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lastSubmissionTime, setLastSubmissionTime] = useState<number | null>(null);
   const { toast } = useToast();
+
+  // EmailJS configuration with environment variables
+  const emailConfig = {
+    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_l1mc13r",
+    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_xelbgmi", 
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "xWYmuyN-pTl05Zx8F"
+  };
+
+  // Validate EmailJS configuration on mount
+  useEffect(() => {
+    if (!emailConfig.serviceId || !emailConfig.templateId || !emailConfig.publicKey) {
+      console.warn("EmailJS configuration incomplete. Contact form may not work properly.");
+    }
+  }, []);
+
+  // Rate limiting check
+  const isRateLimited = () => {
+    if (!lastSubmissionTime) return false;
+    const timeSinceLastSubmission = Date.now() - lastSubmissionTime;
+    return timeSinceLastSubmission < 30000; // 30 seconds
+  };
 
   const validateForm = () => {
     if (formData.name.length < 2) {
@@ -54,18 +76,28 @@ export const ContactSection = () => {
     
     if (!validateForm()) return;
 
+    // Rate limiting check
+    if (isRateLimited()) {
+      toast({
+        title: "Please wait",
+        description: "You can only send one message every 30 seconds.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       await emailjs.send(
-        "service_l1mc13r",    // ← Replace with your actual EmailJS service ID
-        "template_xelbgmi",   // ← Replace with your EmailJS template ID
+        emailConfig.serviceId,
+        emailConfig.templateId,
         {
           from_name: formData.name,
           from_email: formData.email,
           message: formData.message
         },
-        "xWYmuyN-pTl05Zx8F"     // ← Replace with your EmailJS public key
+        emailConfig.publicKey
       );
 
       toast({
@@ -74,6 +106,7 @@ export const ContactSection = () => {
       });
 
       setFormData({ name: "", email: "", message: "" });
+      setLastSubmissionTime(Date.now());
     } catch (error) {
       console.error("Email sending failed:", error);
       toast({
@@ -137,23 +170,18 @@ export const ContactSection = () => {
               <Button
                 variant="outline"
                 size="lg"
-                // className="border-white text-white hover:bg-white hover:text-robotics-blue"
                 className="bg-white text-robotics-blue hover:bg-white"
-                onClick={() => window.open("https://github.com/AkhilJavvadi", "_blank")}
+                onClick={() => window.open("https://github.com/AkhilJavvadi", "_blank", "noopener,noreferrer")}
               >
-                {/* <Github className="w-5 h-5 mr-2" /> */}
                 🔗Github
-                {/* GitHub */}
               </Button>
               
               <Button
                 variant="outline"
                 size="lg"
-                // className="border-white text-white hover:bg-white hover:text-robotics-blue"
                 className="bg-white text-robotics-blue hover:bg-white"
-                onClick={() => window.open("https://linkedin.com/in/akhil-javvadi-820ba5219", "_blank")}
+                onClick={() => window.open("https://linkedin.com/in/akhil-javvadi-820ba5219", "_blank", "noopener,noreferrer")}
               >
-                {/* <Linkedin className="w-5 h-5 mr-2" /> */}
                 🔗 LinkedIn
               </Button>
             </div>
