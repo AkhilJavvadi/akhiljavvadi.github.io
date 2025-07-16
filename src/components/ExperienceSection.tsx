@@ -4,18 +4,33 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 export const ExperienceSection = () => {
   const experiences = [
     {
-      id: "titan",
-      company: "Titan Research & Development",
-      role: "Machine Learning Intern",
-      period: "2022–2023",
-      description: "Built ML-based defect detection system for analog watches, achieving 92.46% accuracy and 95% reduction in detection time.",
+      id: "bizfirst",
+      company: "BizFirst LLC",
+      role: "AI/ML Engineer Intern",
+      period: "Jun 2025 - Present",
+      description: "At BizFirst, I’m building an AI-powered agent that automates website generation using state-of-the-art LLMs and API integrations:",
       achievements: [
-        "Developed computer vision pipeline using OpenCV and TensorFlow",
-        "Implemented real-time defect detection with 92.46% accuracy",
-        "Reduced manual inspection time by 95%",
-        "Deployed production-ready ML models for quality control"
+        "Developing an intelligent agent using the Gemini API to dynamically generate content, layout, and structure for websites.",
+        "Designed and deployed FastAPI-based backend services to support real-time interaction and user-specific customization.",
+        "Integrated LangChain and retrieval-augmented generation (RAG) pipelines for injecting semantically matched images and content into web sections.",
+        "Built robust fallback systems to ensure graceful degradation if image search or generation fails.",
+        "Focused on creating a seamless user experience by combining LLM reasoning, semantic search, and multi-modal content handling."
       ],
-      technologies: ["OpenCV", "TensorFlow", "Python", "Computer Vision", "ML Ops"]
+      technologies: ["Python", "FastAPI", "ML", "Gemini", "LangChain", "RAG"]
+    },
+    {
+      id: "titan",
+      company: "Titan ",
+      role: "Research Intern",
+      period: "Aug 2022– May 2023",
+      description: "During my internship at Titan, I contributed to a defect detection system for analog watches using computer vision and deep learning:",
+      achievements: [
+        "Designed and trained a CNN-based model for identifying defects in analog watch images with 92.46% accuracy.",
+        "Enhanced model robustness by optimizing preprocessing pipelines to handle low-light, noisy images using OpenCV and TensorFlow.",
+        "Processed and annotated over 500 real-world samples, improving the model’s generalization and reliability in production.",
+        "Deployed the final solution in a live manufacturing environment, achieving a 95% reduction in defect identification time."
+      ],
+      technologies: ["OpenCV", "TensorFlow", "Python", "Computer Vision", "ML"]
     }
   ];
 
